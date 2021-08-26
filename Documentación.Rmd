@@ -311,4 +311,27 @@ write.csv(complete_data,"complete_data.csv")
 
 ```
 
+# Anexo 2: Estructura de la variable de PROPORCION_O_IMPORTE
+
+La variable tiene una estructura particular. En general se noto que una vez aplicado los dos filtros el string está en alguna de estas categorías:
+
++ cuenta con informaciòn relacionada con un importe bruto y/o neto (uno o dos montos)
+
++ cuenta con información relacionada con dividendo ordinario o extraordinario (uno, dos y hasta tres montos)
+
++ cuenta con información relacionada con un dividendo, su cupón y serie (uno, dos y hasta tres montos)
+
+En cuanto a los montos, se refieren a cualquier cifra con punto decimal. Por ello si se extraen todas las cifras con punto decimal para vaciar en las variables creadas se debe tener en consideración las categorías anteriores pues dependiendo ella es el órden de los montos en el vector de montos. Por ejemplo, si es un string con info de dividendos, cupones y series pues el primer elemento del vector del montos se refiere al dividendo1, el segundo al dividendo2 y el tercero al dividendo3. Otro ejemplo esque si es un string de importe, si hay dos montos pues el primero es el bruto y el segundo es el neto pero si solo hay un importe, este se refiere al neto. Finalmente, en cuanto al caso de dividendos extraordinarios, el primer elemento es el div1 y el resto son dividendos extraordinarios.
+
+En cuanto a la moneda, esta se encuentra si se hace un match con los caractéres de la moneda, por ejemplo  "MXN" o "EUR". Asimismo, aquí se hace un supuesto: para todos los dividendos que no pertenezcan al tipo 1E, se les imputa la moneda MXN.
+
+En cuanto a la serie, en general vienen en orden y vienen entre comillas ' '.
+
+En cuanto a los cupones, son siempre números enteros identificables porque tienen un espacio antes y después (" 19 "). Además  en general vienen en pares y para cada cupón vigente viene uno de pago. Por lo que los elementos nones del vector de cupones (1,3,5) son los cupones vigentes 1,2 y 3; y los pares son los de pago respectivos. Solamente hay algunos pocos casos donde solo hay un cupon, en caso de que solo haya uno, este siempre es el de pago por lo que hay que tener cuidado aqui pues rompe el orden anterior.
+
+Finalmente se realiza una corrección en cuanto a las series: en los casos donde explicitamente se mencione que el dividendo es "POR CPO", la serie se le pone "CPO" y si quedan dos montos pero solo una serie, entonces el monto2 se le asigna al monto1 (por lo que el monto 1 original se pierte) y se le asgina NA al monto 2.
+
+
+
+
 
